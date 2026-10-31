@@ -73,12 +73,21 @@ export async function chatTurn(opts: {
   });
 }
 
-/** A strict tool whose input schema comes from a zod object. */
-export function zodTool(name: string, description: string, schema: z.ZodType): Anthropic.Beta.BetaTool {
+/**
+ * A tool whose input schema comes from a zod object. Strict mode guarantees
+ * schema-valid input but the API rejects large schemas under it, so big tools
+ * go non-strict; the browser validates their input with zod either way.
+ */
+export function zodTool(
+  name: string,
+  description: string,
+  schema: z.ZodType,
+  { strict }: { strict: boolean },
+): Anthropic.Beta.BetaTool {
   return {
     name,
     description,
-    strict: true,
+    strict,
     input_schema: betaZodOutputFormat(schema).schema as Anthropic.Beta.BetaTool["input_schema"],
   };
 }

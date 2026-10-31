@@ -14,11 +14,13 @@ const TOOLS = [
     "query_data",
     "Aggregate the full dataset. Returns one row per group with each metric, plus the row count. Filter values match case-insensitively.",
     QueryInput,
+    { strict: true },
   ),
   zodTool(
     "update_dashboard",
-    "Change the dashboard the user sees: add or replace charts and KPIs (same id replaces), remove them, or rename the dashboard.",
+    "Change the dashboard the user sees: add or replace charts and KPIs (same id replaces), remove them, or rename the dashboard. Include every field; use [] and null for parts you are not changing.",
     DashboardUpdate,
+    { strict: false },
   ),
 ];
 

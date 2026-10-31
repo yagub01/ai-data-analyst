@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Table2, BarChart3 } from "lucide-react";
 import { useState } from "react";
@@ -156,7 +156,7 @@ function Plot({ chart, data, currency }: { chart: ChartT; data: ChartData; curre
         <BarChart data={data.data} layout="vertical" margin={margin} barCategoryGap={4}>
           <CartesianGrid stroke="var(--grid)" horizontal={false} />
           <XAxis type="number" {...axisProps} tickFormatter={fmt} />
-          <YAxis type="category" dataKey="x" {...axisProps} axisLine={false} width={labelWidth} interval={0} tickFormatter={(v: string) => (v.length > 22 ? v.slice(0, 21) + "â€¦" : v)} />
+          <YAxis type="category" dataKey="x" {...axisProps} axisLine={false} width={labelWidth} interval={0} tickFormatter={(v: string) => (v.length > 22 ? v.slice(0, 21) + "…" : v)} />
           {tooltip}
           {legend}
           {series.map((s, i) => (
@@ -170,7 +170,7 @@ function Plot({ chart, data, currency }: { chart: ChartT; data: ChartData; curre
     );
   }
 
-  const xAxis = <XAxis dataKey="x" {...axisProps} minTickGap={16} tickFormatter={(v: string) => (v.length > 14 ? v.slice(0, 13) + "â€¦" : v)} />;
+  const xAxis = <XAxis dataKey="x" {...axisProps} minTickGap={16} tickFormatter={(v: string) => (v.length > 14 ? v.slice(0, 13) + "…" : v)} />;
   const yAxis = <YAxis {...axisProps} axisLine={false} width={56} tickFormatter={fmt} />;
 
   if (chart.type === "bar" || chart.type === "stacked_bar") {

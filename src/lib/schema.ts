@@ -117,6 +117,8 @@ export const QueryInput = z.object({
   groupBy: z.array(z.string()).describe("0-2 category columns to group by."),
   timeGrain: TimeGrain.nullable().describe("Group by the dataset's time column at this grain, or null."),
   filters: z.array(z.object({ column: z.string(), values: z.array(z.string()) })),
+  dateFrom: z.string().nullable().describe("Inclusive start date (YYYY-MM-DD) on the time column, or null."),
+  dateTo: z.string().nullable().describe("Inclusive end date (YYYY-MM-DD) on the time column, or null."),
   sort: z.enum(["value_desc", "value_asc", "x_asc"]),
   limit: z.number().nullable(),
 });

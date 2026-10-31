@@ -407,6 +407,11 @@ export function runQuery(ds: Dataset, q: QueryInputT, timeColumn: string | null)
     const vals = f.values.map((v) => v.toLowerCase());
     rows = rows.filter((r) => vals.includes(String(r[f.column] ?? "(blank)").toLowerCase()));
   }
+  if (timeColumn && (q.dateFrom || q.dateTo)) {
+    const from = q.dateFrom ? Date.parse(q.dateFrom.slice(0, 10)) : null;
+    const to = q.dateTo ? Date.parse(q.dateTo.slice(0, 10)) : null;
+    rows = applyFilters(rows, { values: {}, dateFrom: Number.isNaN(from) ? null : from, dateTo: Number.isNaN(to) ? null : to }, timeColumn);
+  }
   const dims = q.groupBy.filter((d) => types.has(d)).slice(0, 2);
   const useTime = q.timeGrain && timeColumn && types.get(timeColumn) === "date";
 
