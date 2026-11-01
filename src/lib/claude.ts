@@ -25,7 +25,7 @@ export function getClient(): Anthropic {
   const env = process.env;
   if (!env.ANTHROPIC_API_KEY && !env.ANTHROPIC_AUTH_TOKEN && !env.ANTHROPIC_PROFILE) {
     throw new UserFacingError(
-      "No Anthropic API key found. Add ANTHROPIC_API_KEY to .env.local (see .env.example) and restart the server.",
+      "No Anthropic API key found. On your computer: add ANTHROPIC_API_KEY to .env.local and restart the server. On Vercel: add it under Settings → Environment Variables (Production), then redeploy.",
     );
   }
   client ??= new Anthropic();
