@@ -2,6 +2,8 @@
 
 Upload an Excel or CSV file. The AI works out what the data is and who uses it, builds the dashboard that person needs, and writes actionable insights. You can type or speak to it to add context, ask questions, or change the dashboard. With no input at all, it still works out what you most likely need.
 
+**[Try it live →](https://ai-data-analyst-two-theta.vercel.app)** Click "try it with sample sales data" for a quick demo.
+
 ## How it works
 
 1. **Parse (browser).** SheetJS reads the file. The parser finds the header row (skipping title rows), drops "Total" rows, and works out each column's type (number, date, category, id, text).
