@@ -4,7 +4,9 @@ import type { z } from "zod";
 
 // Server-only: imported by the API routes, never by client components.
 
-export const MODEL = process.env.AI_DATA_ANALYST_MODEL ?? "claude-opus-5-5";
+// Sonnet 5.5 keeps quality close to Opus at half the price. Set
+// AI_DATA_ANALYST_MODEL=claude-opus-5-5 for the most capable model.
+export const MODEL = process.env.AI_DATA_ANALYST_MODEL ?? "claude-sonnet-5-5";
 
 // On a policy decline the API re-runs the request on a suitable fallback model.
 const FALLBACK = {

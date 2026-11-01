@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AccessGate } from "@/components/AccessGate";
 import { Dashboard } from "@/components/Dashboard";
+import { ACCESS_DENIED_EVENT, accessHeaders, checkAccess, getAccessCode, reportAccessDenied } from "@/lib/accessClient";
 import { UploadView } from "@/components/UploadView";
 import { validateSpec } from "@/lib/engine";
 import { computeFacts } from "@/lib/facts";
@@ -20,15 +22,34 @@ interface Analysis {
 async function postJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...accessHeaders() },
     body: JSON.stringify(body),
   });
   const data = await res.json().catch(() => ({}));
+  if (res.status === 401 && data.accessDenied) reportAccessDenied();
   if (!res.ok) throw new Error(data.error ?? `Request failed (${res.status}).`);
   return data as T;
 }
 
 export default function Home() {
+  // "checking" until the server says whether this deployment needs a code.
+  const [access, setAccess] = useState<"checking" | "locked" | "open">("checking");
+
+  useEffect(() => {
+    checkAccess(getAccessCode())
+      .then(({ required, ok }) => setAccess(required && !ok ? "locked" : "open"))
+      .catch(() => setAccess("open"));
+    const lock = () => setAccess("locked");
+    window.addEventListener(ACCESS_DENIED_EVENT, lock);
+    return () => window.removeEventListener(ACCESS_DENIED_EVENT, lock);
+  }, []);
+
+  if (access === "checking") return <main className="flex-1" />;
+  if (access === "locked") return <AccessGate onUnlock={() => setAccess("open")} />;
+  return <App />;
+}
+
+function App() {
   const [workbook, setWorkbook] = useState<ParsedWorkbook | null>(null);
   const [sheet, setSheet] = useState("");
   const [notes, setNotes] = useState("");

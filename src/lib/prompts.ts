@@ -34,6 +34,7 @@ Turn these facts into the few insights that matter most to this user.
 
 Rules:
 - Use only numbers that appear in the facts (you may round them). Never invent or estimate figures.
+- Write money with the currency symbol and readable rounding (e.g. $40.9K, $1.2M), using metricFormats to tell money from counts. Write percentages with a % sign.
 - Be specific: name the segment, the period and the number.
 - Every insight needs a concrete action the user could take this week. "Monitor X" alone is not an action; say what to check, change or decide.
 - Rank by business impact. Include risks and opportunities, not only good news.

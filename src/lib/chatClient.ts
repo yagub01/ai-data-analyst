@@ -2,6 +2,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { DashboardUpdate, QueryInput, type DashboardSpecT, type DashboardUpdateT } from "./schema";
 import type { Dataset, DatasetProfile } from "./types";
 import { runQuery } from "./engine";
+import { accessHeaders, reportAccessDenied } from "./accessClient";
 
 export type ChatMessage = Anthropic.Beta.BetaMessageParam;
 type ContentBlock = Anthropic.Beta.BetaContentBlock;
@@ -30,10 +31,11 @@ export async function runChatTurn(opts: {
   for (let step = 0; step < MAX_STEPS; step++) {
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...accessHeaders() },
       body: JSON.stringify({ profile: opts.profile, spec: opts.baseSpec, messages }),
     });
     const body = await res.json();
+    if (res.status === 401 && body.accessDenied) reportAccessDenied();
     if (!res.ok) throw new Error(body.error ?? "Chat failed.");
 
     const content = body.content as ContentBlock[];

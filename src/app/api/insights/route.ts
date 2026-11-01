@@ -1,11 +1,14 @@
 import { InsightReport, type DashboardSpecT } from "@/lib/schema";
 import { structuredCall, toErrorResponse } from "@/lib/claude";
 import { INSIGHTS_SYSTEM } from "@/lib/prompts";
+import { denyWithoutAccess } from "@/lib/access";
 import type { Facts } from "@/lib/facts";
 
 export const maxDuration = 300;
 
 export async function POST(req: Request) {
+  const denied = denyWithoutAccess(req);
+  if (denied) return denied;
   try {
     const { spec, facts, notes } = (await req.json()) as { spec: DashboardSpecT; facts: Facts; notes?: string };
     if (!spec || !facts) return Response.json({ error: "Missing dashboard or facts." }, { status: 400 });
@@ -13,6 +16,11 @@ export async function POST(req: Request) {
     const dashboard = {
       title: spec.title,
       understanding: spec.understanding,
+      currency: spec.currency,
+      // Tells the model which fact values are money, percentages or plain counts.
+      metricFormats: Object.fromEntries(
+        [...spec.analysis.measures, ...spec.kpis].map((m) => [m.label, m.format]),
+      ),
       kpis: spec.kpis.map((k) => k.label),
       charts: spec.charts.map((c) => ({ id: c.id, title: c.title, why: c.why })),
     };

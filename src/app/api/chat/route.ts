@@ -2,6 +2,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { DashboardUpdate, QueryInput, type DashboardSpecT } from "@/lib/schema";
 import { chatTurn, toErrorResponse, zodTool } from "@/lib/claude";
 import { CHAT_SYSTEM } from "@/lib/prompts";
+import { denyWithoutAccess } from "@/lib/access";
 import type { DatasetProfile } from "@/lib/types";
 
 export const maxDuration = 300;
@@ -25,6 +26,8 @@ const TOOLS = [
 ];
 
 export async function POST(req: Request) {
+  const denied = denyWithoutAccess(req);
+  if (denied) return denied;
   try {
     const { profile, spec, messages } = (await req.json()) as {
       profile: DatasetProfile;
