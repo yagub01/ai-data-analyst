@@ -1,4 +1,4 @@
-# InsightBoard
+# AI Data Analyst
 
 Upload an Excel or CSV file. The AI works out what the data is and who uses it, builds the dashboard that person needs, and writes actionable insights. You can type or speak to it to add context, ask questions, or change the dashboard. With no input at all, it still works out what you most likely need.
 

@@ -4,7 +4,7 @@ import type { z } from "zod";
 
 // Server-only: imported by the API routes, never by client components.
 
-export const MODEL = process.env.INSIGHTBOARD_MODEL ?? "claude-opus-5-5";
+export const MODEL = process.env.AI_DATA_ANALYST_MODEL ?? "claude-opus-5-5";
 
 // On a policy decline the API re-runs the request on a suitable fallback model.
 const FALLBACK = {

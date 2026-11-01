@@ -120,7 +120,7 @@ export function Dashboard({
     <div className="flex-1 flex flex-col">
       <header className="sticky top-0 z-30 border-b border-line bg-page/90 backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 h-14 flex items-center gap-3">
-          <span className="font-semibold text-ink">InsightBoard</span>
+          <span className="font-semibold text-ink">AI Data Analyst</span>
           <span className="text-sm text-muted truncate hidden sm:inline">
             {ds.fileName} · {ds.sheetName} · {ds.rows.length.toLocaleString()} rows
           </span>

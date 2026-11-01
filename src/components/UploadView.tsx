@@ -43,7 +43,7 @@ export function UploadView({
     <main className="flex-1 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-2xl">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">InsightBoard</h1>
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">AI Data Analyst</h1>
           <p className="mt-3 text-ink-2 text-lg">
             Upload a spreadsheet. The AI figures out what it is, builds the dashboard you need, and tells you what to do
             next.
